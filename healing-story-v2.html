@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Get Well Soon Bubuu 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pink:#ff85a1;--pink2:#ffc2d4;--pink3:#fff0f5;
+  --lavender:#c084fc;--lav2:#e9d5ff;--lav3:#faf5ff;
+  --peach:#ffa07a;--peach2:#ffd4c2;
+  --mint:#6ee7b7;--mint2:#d1fae5;
+  --yellow:#fde68a;--yellow2:#fffbeb;
+  --cream:#fff9f0;--white:#ffffff;
+  --text:#3d2c4e;--text2:#7c5cbf;--textsub:#9d7abf;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Nunito',sans-serif;
+  background:linear-gradient(160deg,#fce4f3 0%,#e8d5fa 30%,#d4eaf7 60%,#fce4f3 100%);
+  background-attachment:fixed;
+  min-height:100vh;color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ── floating background flowers ── */
+.bg-flowers{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bf{position:absolute;opacity:.18;animation:bfloat linear infinite}
+@keyframes bfloat{0%{transform:translateY(110vh) rotate(0deg)}100%{transform:translateY(-120px) rotate(360deg)}}
+
+/* ── page sections ── */
+.page{display:none;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.2rem;position:relative;z-index:1}
+.page.active{display:flex}
+
+/* ── cards ── */
+.card{
+  background:rgba(255,255,255,0.72);
+  backdrop-filter:blur(16px);
+  border-radius:32px;
+  padding:2.2rem 2rem 2rem;
+  max-width:520px;width:100%;
+  box-shadow:0 8px 40px rgba(200,130,220,.18),0 2px 8px rgba(200,130,220,.08);
+  border:2px solid rgba(255,255,255,0.9);
+  text-align:center;position:relative;overflow:hidden;
+  animation:cardIn .55s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(30px) scale(.94)}to{opacity:1;transform:none}}
+.card::before{
+  content:'';position:absolute;top:-50px;right:-50px;
+  width:140px;height:140px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,133,161,.25),transparent 70%);pointer-events:none
+}
+
+/* ── typography ── */
+.page-tag{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--lavender);background:var(--lav2);border-radius:20px;padding:.25rem .9rem;display:inline-block;margin-bottom:1rem}
+h1{font-family:'Pacifico',cursive;font-size:1.7rem;line-height:1.35;color:var(--text);margin-bottom:.6rem}
+h1.big{font-size:2rem}
+.sub{font-size:.95rem;color:var(--textsub);line-height:1.65;margin-bottom:1.5rem}
+.sub strong{color:var(--text2);font-weight:800}
+
+/* ── buttons ── */
+.btn{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.72rem 1.7rem;border-radius:50px;border:none;cursor:pointer;
+  font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;
+  transition:transform .18s,box-shadow .18s,filter .18s;position:relative;overflow:hidden
+}
+.btn:hover{transform:translateY(-3px) scale(1.05)}
+.btn:active{transform:scale(.96)}
+.btn-pink{background:linear-gradient(135deg,#ff85a1,#e040fb);color:#fff;box-shadow:0 5px 20px rgba(255,133,161,.45)}
+.btn-pink:hover{box-shadow:0 10px 30px rgba(255,133,161,.6)}
+.btn-lav{background:linear-gradient(135deg,#a78bfa,#c084fc);color:#fff;box-shadow:0 5px 20px rgba(167,139,250,.4)}
+.btn-lav:hover{box-shadow:0 10px 28px rgba(167,139,250,.58)}
+.btn-mint{background:linear-gradient(135deg,#34d399,#06b6d4);color:#fff;box-shadow:0 5px 20px rgba(52,211,153,.4)}
+.btn-mint:hover{box-shadow:0 10px 28px rgba(52,211,153,.55)}
+.btn-peach{background:linear-gradient(135deg,#fb923c,#f43f5e);color:#fff;box-shadow:0 5px 20px rgba(251,146,60,.4)}
+.btn-row{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;margin-top:1rem}
+
+/* ── progress dots ── */
+.dots{display:flex;gap:8px;justify-content:center;margin-top:1.5rem;z-index:2;position:relative}
+.dot{width:9px;height:9px;border-radius:50%;background:rgba(192,132,252,.3);transition:all .3s}
+.dot.on{background:var(--lavender);transform:scale(1.4);box-shadow:0 0 8px var(--lavender)}
+
+/* ── SVG flower helper ── */
+.flower-wrap{margin:.6rem auto 1.1rem;display:flex;justify-content:center}
+
+/* ── GAME: catch stars ── */
+#star-game{
+  position:relative;width:100%;height:200px;
+  background:linear-gradient(180deg,#1a0533 0%,#2d1b6e 100%);
+  border-radius:20px;overflow:hidden;cursor:crosshair;margin:1rem 0;
+  border:2px solid rgba(167,139,250,.4)
+}
+.star-obj{position:absolute;font-size:1.4rem;cursor:pointer;transition:transform .1s;user-select:none}
+.star-obj:hover{transform:scale(1.3)}
+#star-score{font-size:1rem;font-weight:800;color:var(--lavender);margin-top:.4rem}
+
+/* ── GAME: flower tap ── */
+#flower-game{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:1rem 0;min-height:120px}
+.fg-flower{font-size:2.2rem;cursor:pointer;transition:transform .15s,filter .15s;user-select:none;display:inline-block}
+.fg-flower:hover{transform:scale(1.25) rotate(-10deg)}
+.fg-flower.bloomed{animation:bloom .4s ease forwards}
+@keyframes bloom{0%{transform:scale(1)}50%{transform:scale(1.6) rotate(15deg)}100%{transform:scale(1.1) rotate(0deg)}}
+#fg-score{font-size:1rem;font-weight:800;color:var(--pink)}
+
+/* ── GAME: mood picker ── */
+.mood-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:1rem 0}
+.mood-btn{
+  font-size:1.6rem;background:rgba(255,255,255,.7);border-radius:16px;
+  border:2px solid rgba(255,255,255,.9);padding:.5rem .8rem;cursor:pointer;
+  transition:transform .2s,background .2s;box-shadow:0 2px 10px rgba(200,130,220,.15)
+}
+.mood-btn:hover{transform:scale(1.2);background:var(--lav2)}
+.mood-btn.picked{background:var(--lav2);border-color:var(--lavender);transform:scale(1.25);animation:wiggle .4s ease}
+@keyframes wiggle{0%,100%{rotate:0deg}25%{rotate:-8deg}75%{rotate:8deg}}
+#mood-msg{font-size:.95rem;font-weight:700;color:var(--text2);min-height:1.4rem;margin-top:.4rem}
+
+/* ── flower garden ── */
+#garden{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:1rem 0}
+.garden-pot{text-align:center;cursor:pointer;transition:transform .2s}
+.garden-pot:hover{transform:translateY(-6px)}
+.garden-pot .gf{font-size:2.5rem;display:block;transition:transform .3s}
+.garden-pot .gpot{font-size:1.6rem}
+.garden-pot p{font-size:.7rem;color:var(--textsub);margin-top:.2rem;font-weight:700}
+
+/* ── prescription ── */
+.rx-item{
+  display:flex;align-items:center;gap:.8rem;
+  background:rgba(255,255,255,.65);border-radius:14px;padding:.7rem 1rem;
+  margin-bottom:.55rem;border:1.5px solid rgba(255,255,255,.9);
+  text-align:left;font-size:.88rem;font-weight:700;color:var(--text)
+}
+.rx-check{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:1rem
+}
+
+/* ── confetti canvas ── */
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:999}
+
+/* ── letter builder ── */
+#letter-box{
+  width:100%;min-height:80px;background:rgba(255,255,255,.8);
+  border-radius:16px;padding:1rem;font-family:'Nunito',sans-serif;font-size:.9rem;
+  font-weight:700;color:var(--text);border:2px solid var(--pink2);
+  resize:none;outline:none;line-height:1.6
+}
+#letter-box:focus{border-color:var(--pink)}
+.word-pills{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-bottom:.8rem}
+.wp{
+  padding:.28rem .75rem;border-radius:50px;font-size:.8rem;font-weight:800;cursor:pointer;
+  background:var(--lav2);color:var(--text2);border:1.5px solid var(--lavender);
+  transition:transform .15s,background .15s
+}
+.wp:hover{transform:scale(1.08);background:var(--lavender);color:#fff}
+
+/* ── responsive ── */
+@media(max-width:480px){h1{font-size:1.4rem}h1.big{font-size:1.65rem}.card{padding:1.7rem 1.2rem 1.5rem}}
+</style>
+</head>
+<body>
+
+<!-- floating background flowers -->
+<div class="bg-flowers" id="bgFlowers"></div>
+<canvas id="confetti-canvas"></canvas>
+
+<!-- ===== PAGE 1: INTRO ===== -->
+<div class="page active" id="page1">
+<div class="card">
+  <div class="page-tag">✨ Ek chotu si stroy aapke liye</div>
+
+  <!-- hand-drawn flower SVG -->
+  <div class="flower-wrap">
+    <svg width="120" height="110" viewBox="0 0 120 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="60" cy="55" rx="8" ry="22" fill="#ff85a1" opacity=".85"/>
+      <ellipse cx="60" cy="55" rx="22" ry="8" fill="#ff85a1" opacity=".85"/>
+      <ellipse cx="60" cy="55" rx="8" ry="22" fill="#ffc2d4" opacity=".7" transform="rotate(45 60 55)"/>
+      <ellipse cx="60" cy="55" rx="8" ry="22" fill="#ffc2d4" opacity=".7" transform="rotate(-45 60 55)"/>
+      <circle cx="60" cy="55" r="12" fill="#fde68a" stroke="#fbbf24" stroke-width="1.5"/>
+      <circle cx="60" cy="55" r="6" fill="#fb923c" opacity=".6"/>
+      <!-- leaves -->
+      <path d="M60 77 Q48 90 38 88 Q48 80 60 77Z" fill="#6ee7b7"/>
+      <path d="M60 77 Q72 90 82 88 Q72 80 60 77Z" fill="#34d399"/>
+      <!-- stem -->
+      <line x1="60" y1="77" x2="60" y2="100" stroke="#6ee7b7" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <h1 class="big">Once upon a time…<br>there was a girl named Aaaluuu bhujiyaaa 🌸</h1>
+  <p class="sub">Wo itni pyaari thii naa (matlab ab bhi hai) <strong> Even gravity itself</strong> couldn't resist wanting a little bit of her attention<br></p>
+  <div class="btn-row">
+    <button class="btn btn-pink" onclick="goTo(2)">What happened?</button>
+  </div>
+</div>
+<div class="dots">
+  <div class="dot on" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div>
+  <div class="dot" id="d4"></div><div class="dot" id="d5"></div><div class="dot" id="d6"></div><div class="dot" id="d7"></div>
+</div>
+</div>
+
+<!-- ===== PAGE 2: THE STAIRS ===== -->
+<div class="page" id="page2">
+<div class="card">
+  <div class="page-tag">Chapter II 💀</div>
+  <div class="flower-wrap">
+    <svg width="130" height="80" viewBox="0 0 130 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- staircase -->
+      <rect x="10" y="50" width="30" height="20" rx="4" fill="#c084fc" opacity=".6"/>
+      <rect x="40" y="36" width="30" height="34" rx="4" fill="#a78bfa" opacity=".6"/>
+      <rect x="70" y="20" width="30" height="50" rx="4" fill="#8b5cf6" opacity=".6"/>
+      <!-- little falling star person -->
+      <circle cx="90" cy="12" r="8" fill="#fde68a" stroke="#fbbf24" stroke-width="1.5"/>
+      <text x="87" y="16" font-size="9" fill="#92400e">😵</text>
+      <!-- motion lines -->
+      <line x1="75" y1="10" x2="65" y2="18" stroke="#ff85a1" stroke-width="2" stroke-dasharray="3 2" stroke-linecap="round"/>
+      <line x1="80" y1="6" x2="68" y2="14" stroke="#ff85a1" stroke-width="1.5" stroke-dasharray="3 2" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <h1>Ek din staris ne decide kiya ki apna luck aazmaate <br><H1>Haulee stairs </H1>💀</h1>
+  <p class="sub">Those sneaky, devious, <strong>absolutely unhinged</strong> stairs saw their chance.<br>They took it Without hesitation huhhhhhh chimpuuusss</p>
+  <div class="btn-row">
+    <button class="btn btn-lav" onclick="goTo(3)">Aur phr.....? </button>
+  </div>
+</div>
+<div class="dots">
+  <div class="dot" id="d1b"></div><div class="dot on" id="d2b"></div><div class="dot" id="d3b"></div>
+  <div class="dot" id="d4b"></div><div class="dot" id="d5b"></div><div class="dot" id="d6b"></div><div class="dot" id="d7b"></div>
+</div>
+</div>
+
+<!-- ===== PAGE 3: THE FALL ===== -->
+<div class="page" id="page3">
+<div class="card">
+  <div class="page-tag">💥 the legendary moment</div>
+  <div id="boom-zone" class="flower-wrap" style="height:70px;position:relative;overflow:visible"></div>
+  <h1>A fall so legendary,<br>historians wept 😭</h1>
+  <p class="sub">Scientists are <strong>still studying the physics </strong>Birds stopped mid flight to witness it<br>The stairs? They celebrated, zero shame sheesshhh</p>
+  <div class="btn-row">
+    <button class="btn btn-mint" onclick="goTo(4)">Okay lekin lekin lekin…</button>
+  </div>
+</div>
+<div class="dots">
+  <div class="dot" id="d1c"></div><div class="dot" id="d2c"></div><div class="dot on" id="d3c"></div>
+  <div class="dot" id="d4c"></div><div class="dot" id="d5c"></div><div class="dot" id="d6c"></div><div class="dot" id="d7c"></div>
+</div>
+</div>
+
+<!-- ===== PAGE 4: SOFT ===== -->
+<div class="page" id="page4">
+<div class="card" style="border-color:rgba(255,133,161,.35)">
+  <div class="page-tag" style="background:#ffe4ec;color:#be185d">🌸 real talk</div>
+  <div class="flower-wrap">
+    <svg width="140" height="100" viewBox="0 0 140 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- heart with flowers growing out -->
+      <path d="M70 80 C30 60 10 40 20 22 C26 10 44 8 70 30 C96 8 114 10 120 22 C130 40 110 60 70 80Z" fill="#ff85a1" opacity=".85"/>
+      <path d="M70 75 C40 58 22 40 30 25 C35 15 50 14 70 32 C90 14 105 15 110 25 C118 40 100 58 70 75Z" fill="#ffc2d4" opacity=".7"/>
+      <!-- small flowers on heart -->
+      <circle cx="55" cy="38" r="5" fill="#fde68a" stroke="#fbbf24" stroke-width="1"/>
+      <ellipse cx="55" cy="33" rx="3" ry="6" fill="#ff85a1" opacity=".7"/>
+      <ellipse cx="55" cy="43" rx="3" ry="6" fill="#ff85a1" opacity=".7"/>
+      <ellipse cx="50" cy="38" rx="6" ry="3" fill="#ffc2d4" opacity=".7"/>
+      <ellipse cx="60" cy="38" rx="6" ry="3" fill="#ffc2d4" opacity=".7"/>
+      <circle cx="85" cy="42" r="5" fill="#fde68a" stroke="#fbbf24" stroke-width="1"/>
+      <ellipse cx="85" cy="37" rx="3" ry="6" fill="#c084fc" opacity=".7"/>
+      <ellipse cx="85" cy="47" rx="3" ry="6" fill="#c084fc" opacity=".7"/>
+      <ellipse cx="80" cy="42" rx="6" ry="3" fill="#e9d5ff" opacity=".7"/>
+      <ellipse cx="90" cy="42" rx="6" ry="3" fill="#e9d5ff" opacity=".7"/>
+    </svg>
+  </div>
+  <h1>Sorryy hehehe thoda mazak, taaki aapka dard ekdum chuuuuu hoo jayee <br></h1>
+  <p class="sub">Meri gudiyaaaaa, kuch ni hota, aap na ice lagana, dard bhaag jayega, badmoshhiii krra tha hnnnnnnnn<br><strong>I'm here always, waha hota to ye seedhiyo ko dikhata, jese bachpan me apn kahi gir jaate the to ammi kese wo jagah ko maarti thi wese hi hehehe</strong></p>
+  <div class="btn-row">
+    <button class="btn btn-pink" onclick="goTo(5)">Aajaiyee bubuuu, ek chotu sa game khelte</button>
+  </div>
+</div>
+<div class="dots">
+  <div class="dot" id="d1d"></div><div class="dot" id="d2d"></div><div class="dot" id="d3d"></div>
+  <div class="dot on" id="d4d"></div><div class="dot" id="d5d"></div><div class="dot" id="d6d"></div><div class="dot" id="d7d"></div>
+</div>
+</div>
+
+<!-- ===== PAGE 5: STAR CATCHING GAME ===== -->
+<div class="page" id="page5">
+<div class="card">
+  <div class="page-tag">🎮 mini game 1</div>
+  <h1>Catch the falling stars </h1>
+  <p class="sub">Jitne stars catch krogi utni kissi milegiii hehe</p>
+
+  <div id="star-game" onclick="catchStar(event)">
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:.4;font-size:.85rem;color:#c084fc;font-weight:700" id="star-hint">tap anywhere to start!</div>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:.2rem .5rem">
+    <div id="star-score" style="font-size:1rem;font-weight:800;color:#c084fc">⭐ 0 caught</div>
+    <button class="btn btn-lav" style="padding:.4rem 1rem;font-size:.82rem" onclick="resetStarGame()">restart ↺</button>
+  </div>
+  <div id="star-msg" style="font-size:.85rem;font-weight:700;color:#f43f5e;min-height:1.3rem;text-align:center"></div>
+
+  <div class="btn-row" style="margin-top:.8rem">
+    <button class="btn btn-mint" onclick="goTo(6)">Next surprise 🌸</button>
+  </div>
+</div>
+<div class="dots">
+  <div class="dot" id="d1e"></div><div class="dot" id="d2e"></div><div class="dot" id="d3e"></div>
+  <div class="dot" id="d4e"></div><div class="dot on" id="d5e"></div><div class="dot" id="d6e"></div><div class="dot" id="d7e"></div>
+</div>
+</div>
+
+<!-- ===== PAGE 6: FLOWER TAP + MOOD ===== -->
+<div class="page" id="page6">
+<div class="card">
+  <div class="page-tag">🌺 how are you feeling?</div>
+  <h1>Pick your mood, then bloom the flowers! 🌷</h1>
+
+  
+
+  <hr style="border:none;border-top:1.5px dashed rgba(192,132,252,.3);margin:1rem 0"/>
+  <p style="font-size:.82rem;font-weight:800;color:var(--textsub);margin-bottom:.4rem">tap each flower to bloom it! 🌸</p>
+  <div id="flower-game"></div>
+  <div id="fg-score" style="font-size:.9rem;font-weight:800;color:var(--pink)"></div>
+
+  <div class="btn-row">
+    <button class="btn btn-peach" onclick="goTo(7)">One more thing… 💌</button>
+  </div>
+</div>
+<div class="dots">
+  <div class="dot" id="d1f"></div><div class="dot" id="d2f"></div><div class="dot" id="d3f"></div>
+  <div class="dot" id="d4f"></div><div class="dot" id="d5f"></div><div class="dot on" id="d6f"></div><div class="dot" id="d7f"></div>
+</div>
+</div>
+
+<!-- ===== PAGE 7: FINAL PRESCRIPTION ===== -->
+<div class="page" id="page7">
+<div class="card">
+  <div class="page-tag" style="background:#d1fae5;color:#065f46">💊 official prescription from doctor canddyyyyy</div>
+
+  <!-- bouquet SVG -->
+  <div class="flower-wrap">
+    <svg width="200" height="130" viewBox="0 0 200 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- stems -->
+      <path d="M100 115 Q88 95 80 75" stroke="#6ee7b7" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <path d="M100 115 Q100 90 100 68" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <path d="M100 115 Q112 95 120 75" stroke="#6ee7b7" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <path d="M100 115 Q75 95 65 72" stroke="#6ee7b7" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M100 115 Q125 95 135 72" stroke="#6ee7b7" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <!-- wrapper -->
+      <path d="M82 115 Q100 108 118 115 L112 128 Q100 122 88 128Z" fill="#ffc2d4"/>
+      <!-- flower 1 pink center -->
+      <ellipse cx="80" cy="68" rx="6" ry="14" fill="#ff85a1" opacity=".8"/>
+      <ellipse cx="80" cy="68" rx="14" ry="6" fill="#ff85a1" opacity=".8"/>
+      <ellipse cx="80" cy="68" rx="6" ry="14" fill="#ffc2d4" opacity=".6" transform="rotate(45 80 68)"/>
+      <ellipse cx="80" cy="68" rx="6" ry="14" fill="#ffc2d4" opacity=".6" transform="rotate(-45 80 68)"/>
+      <circle cx="80" cy="68" r="8" fill="#fde68a" stroke="#fbbf24" stroke-width="1"/>
+      <!-- flower 2 lavender -->
+      <ellipse cx="100" cy="58" rx="6" ry="15" fill="#c084fc" opacity=".8"/>
+      <ellipse cx="100" cy="58" rx="15" ry="6" fill="#c084fc" opacity=".8"/>
+      <ellipse cx="100" cy="58" rx="6" ry="15" fill="#e9d5ff" opacity=".6" transform="rotate(45 100 58)"/>
+      <ellipse cx="100" cy="58" rx="6" ry="15" fill="#e9d5ff" opacity=".6" transform="rotate(-45 100 58)"/>
+      <circle cx="100" cy="58" r="8" fill="#fde68a" stroke="#fbbf24" stroke-width="1"/>
+      <!-- flower 3 peach -->
+      <ellipse cx="120" cy="68" rx="6" ry="14" fill="#fb923c" opacity=".7"/>
+      <ellipse cx="120" cy="68" rx="14" ry="6" fill="#fb923c" opacity=".7"/>
+      <ellipse cx="120" cy="68" rx="6" ry="14" fill="#fda4af" opacity=".5" transform="rotate(45 120 68)"/>
+      <ellipse cx="120" cy="68" rx="6" ry="14" fill="#fda4af" opacity=".5" transform="rotate(-45 120 68)"/>
+      <circle cx="120" cy="68" r="8" fill="#fde68a" stroke="#fbbf24" stroke-width="1"/>
+      <!-- small side flowers -->
+      <ellipse cx="63" cy="65" rx="5" ry="11" fill="#6ee7b7" opacity=".8"/>
+      <ellipse cx="63" cy="65" rx="11" ry="5" fill="#6ee7b7" opacity=".8"/>
+      <circle cx="63" cy="65" r="6" fill="#fde68a" stroke="#fbbf24" stroke-width="1"/>
+      <ellipse cx="137" cy="65" rx="5" ry="11" fill="#f9a8d4" opacity=".8"/>
+      <ellipse cx="137" cy="65" rx="11" ry="5" fill="#f9a8d4" opacity=".8"/>
+      <circle cx="137" cy="65" r="6" fill="#fde68a" stroke="#fbbf24" stroke-width="1"/>
+      <!-- sparkles -->
+      <text x="42" y="30" font-size="14" opacity=".8">✨</text>
+      <text x="148" y="28" font-size="14" opacity=".8">✨</text>
+      <text x="95" y="20" font-size="12" opacity=".6">🌟</text>
+    </svg>
+  </div>
+
+  <h1>Doctor candyy ke orders strictly follow krne padege</h1>
+  <div style="margin:1rem 0">
+    <div class="rx-item"><div class="rx-check" style="background:#ffe4ec"></div> Ice lgana sbse pehle to </div>
+    <div class="rx-item"><div class="rx-check" style="background:#d1fae5"></div> Ummm, kuch order kr deta aapke liye, khaa kr mood chakachak ho jayega </div>
+    <div class="rx-item"><div class="rx-check" style="background:#ede9fe"></div> Aur thoda sa aaram kr lena, poora din kaam krke meri gudiyaa thak jaati</div>
+    <div class="rx-item"><div class="rx-check" style="background:#fef3c7"></div> cutu cutu si smile krte rehnaa, wrna bilu badmosh aa jayega </div>
+  </div>
+
+  <div style="font-family:'Pacifico',cursive;font-size:1.5rem;color:#e879f9;margin:.7rem 0">Dard thik ho jayega bubuuu</div>
+
+  <!-- mini letter builder -->
+  <div style="margin-top:1.2rem">
+    <p style="font-size:.78rem;font-weight:800;color:var(--textsub);margin-bottom:.5rem">Ek chota sa message banao apne liye</p>
+    <div class="word-pills">
+      <span class="wp" onclick="addWord('You are strong 💪')">Mai strong huuu</span>
+      <span class="wp" onclick="addWord('Apne candy ki baat maanugi')">apne candyyy ki baat maanugi</span>
+      <span class="wp" onclick="addWord('Candyyy kissi doooo')">Candyyy kissi doooo</span>
+      <span class="wp" onclick="addWord('Tight huggiee bhi chahiyee')">Tight huggiee bhi chahiyee</span>
+      <span class="wp" onclick="addWord('Muuuuaaahhhhhhhh shooonaaaaa')">Muuuuaaahhhhhhhh shooonaaaaa</span>
+      <span class="wp" onclick="addWord('La la la la la la la la la la la')">La la la la la la la la la la la</span>
+    </div>
+    <textarea id="letter-box" rows="3" placeholder="your personal healing note…"></textarea>
+  </div>
+
+  <div class="btn-row" style="margin-top:1rem">
+    <button class="btn btn-mint" onclick="celebrate()">🎉 Celebrate yeyeyeyeyeye</button>
+    <button class="btn btn-pink" onclick="goTo(1)">Phr se story pdhni h</button>
+  </div>
+</div>
+<div class="dots">
+  <div class="dot" id="d1g"></div><div class="dot" id="d2g"></div><div class="dot" id="d3g"></div>
+  <div class="dot" id="d4g"></div><div class="dot" id="d5g"></div><div class="dot" id="d6g"></div><div class="dot on" id="d7g"></div>
+</div>
+</div>
+
+<script>
+// ── page nav ──
+let cur = 1;
+const total = 7;
+function goTo(n){
+  document.getElementById('page'+cur).classList.remove('active');
+  cur = n;
+  const pg = document.getElementById('page'+n);
+  pg.classList.add('active');
+  if(n===3) triggerBoom();
+  if(n===5) initStarGame();
+  if(n===6) initFlowerGame();
+  if(n===7) celebrate();
+}
+
+// ── background floating flowers ──
+(function(){
+  const wrap = document.getElementById('bgFlowers');
+  const items = ['🌸','🌺','🌷','🌼','💐','🌻','🍀','🌹','✨','⭐'];
+  for(let i=0;i<18;i++){
+    const el = document.createElement('div');
+    el.className='bf';
+    el.textContent = items[Math.floor(Math.random()*items.length)];
+    const size = 18+Math.random()*22;
+    el.style.cssText=`font-size:${size}px;left:${Math.random()*100}%;animation-duration:${12+Math.random()*20}s;animation-delay:${-Math.random()*18}s`;
+    wrap.appendChild(el);
+  }
+})();
+
+// ── BOOM animation ──
+function triggerBoom(){
+  const zone = document.getElementById('boom-zone');
+  zone.innerHTML='';
+  const list=[{e:'💥',x:50,y:0},{e:'😭',x:20,y:5},{e:'💫',x:75,y:10},{e:'⭐',x:8,y:15},{e:'🌟',x:85,y:0},{e:'😱',x:40,y:8}];
+  list.forEach((item,i)=>{
+    const el=document.createElement('span');
+    el.textContent=item.e;
+    el.style.cssText=`position:absolute;font-size:1.8rem;left:${item.x}%;top:${item.y}px;opacity:0;transform:scale(.2);transition:all .4s cubic-bezier(.34,1.56,.64,1);transition-delay:${i*80}ms`;
+    zone.appendChild(el);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{el.style.opacity='1';el.style.transform='scale(1)'}));
+  });
+}
+
+// ── STAR GAME ──
+let starScore=0, starInterval=null, gameActive=false;
+function initStarGame(){
+  resetStarGame();
+}
+function resetStarGame(){
+  clearInterval(starInterval); gameActive=false; starScore=0;
+  const game=document.getElementById('star-game');
+  game.querySelectorAll('.star-obj').forEach(e=>e.remove());
+  document.getElementById('star-score').textContent='⭐ 0 caught';
+  document.getElementById('star-msg').textContent='';
+  const hint=document.getElementById('star-hint');
+  if(hint) hint.style.display='flex';
+  gameActive=false;
+}
+function startStarGame(){
+  const hint=document.getElementById('star-hint');
+  if(hint) hint.style.display='none';
+  if(gameActive) return;
+  gameActive=true;
+  const emojis=['⭐','🌟','✨','💫','🌸','💕','🦋'];
+  const game=document.getElementById('star-game');
+  starInterval=setInterval(()=>{
+    if(!gameActive) return;
+    const el=document.createElement('div');
+    el.className='star-obj';
+    el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left=(5+Math.random()*82)+'%';
+    el.style.top='-30px';
+    game.appendChild(el);
+    const speed=1.2+Math.random()*1.8;
+    let pos=-30;
+    el.onclick=(e)=>{e.stopPropagation();catchEl(el)};
+    const fall=setInterval(()=>{
+      pos+=speed;
+      el.style.top=pos+'px';
+      if(pos>210){clearInterval(fall);if(el.parentNode)el.remove()}
+    },16);
+  },800);
+  setTimeout(()=>{
+    clearInterval(starInterval);gameActive=false;
+    document.getElementById('star-msg').textContent=`Game over! You caught ${starScore} stars — like a superstar 🌟`;
+  },18000);
+}
+function catchStar(e){
+  if(!gameActive){startStarGame();return}
+  const x=e.clientX-e.currentTarget.getBoundingClientRect().left;
+  const y=e.clientY-e.currentTarget.getBoundingClientRect().top;
+  spawnPop(x,y);
+}
+function catchEl(el){
+  if(el.dataset.caught) return;
+  el.dataset.caught='1';
+  el.remove();
+  starScore++;
+  document.getElementById('star-score').textContent=`⭐ ${starScore} caught`;
+}
+function spawnPop(x,y){
+  const game=document.getElementById('star-game');
+  const p=document.createElement('div');
+  p.textContent='✨';p.style.cssText=`position:absolute;left:${x}px;top:${y}px;font-size:1.2rem;pointer-events:none;animation:boomPop .5s ease forwards`;
+  game.appendChild(p);setTimeout(()=>p.remove(),500);
+}
+
+// ── FLOWER TAP GAME ──
+let fgBloomed=0;
+function initFlowerGame(){
+  fgBloomed=0;
+  const wrap=document.getElementById('flower-game');
+  wrap.innerHTML='';
+  const flowers=['🌸','🌺','🌷','🌼','🌻','🌹','💐','🪷','🌸','🌼','🌷','🌺'];
+  flowers.forEach((f,i)=>{
+    const el=document.createElement('span');
+    el.className='fg-flower';
+    el.textContent='🌱';
+    el.dataset.flower=f;
+    el.onclick=()=>bloomFlower(el);
+    setTimeout(()=>{wrap.appendChild(el)},i*60);
+  });
+  document.getElementById('fg-score').textContent='';
+}
+function bloomFlower(el){
+  if(el.dataset.bloomed) return;
+  el.dataset.bloomed='1';
+  el.textContent=el.dataset.flower;
+  el.classList.add('bloomed');
+  fgBloomed++;
+  const wrap=document.getElementById('flower-game');
+  const total=wrap.querySelectorAll('.fg-flower').length;
+  document.getElementById('fg-score').textContent=`🌸 ${fgBloomed} of ${total} bloomed!`;
+  if(fgBloomed===total) document.getElementById('fg-score').textContent='🎉 You bloomed all the flowers! Just like you will 💕';
+}
+
+// ── MOOD PICKER ──
+function pickMood(btn,emoji,msg){
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('picked'));
+  btn.classList.add('picked');
+  document.getElementById('mood-msg').textContent=msg;
+}
+
+// ── LETTER BUILDER ──
+function addWord(w){
+  const box=document.getElementById('letter-box');
+  box.value=(box.value?box.value+' ':'')+w;
+  box.focus();
+}
+
+// ── CONFETTI ──
+let confettiId=null;
+function celebrate(){
+  const canvas=document.getElementById('confetti-canvas');
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+  const colors=['#ff85a1','#c084fc','#fde68a','#6ee7b7','#fb923c','#a78bfa','#ffc2d4','#f9a8d4'];
+  const shapes=['🌸','⭐','✨','💕','🌺','💫'];
+  let parts=[];
+  for(let i=0;i<120;i++){
+    parts.push({
+      x:Math.random()*canvas.width, y:-30-Math.random()*200,
+      r:6+Math.random()*8, color:colors[Math.floor(Math.random()*colors.length)],
+      vx:(Math.random()-.5)*3, vy:2+Math.random()*4,
+      rot:Math.random()*360, vr:(Math.random()-.5)*8,
+      shape:Math.random()<.4?'emoji':Math.random()<.5?'rect':'circle',
+      emoji:shapes[Math.floor(Math.random()*shapes.length)]
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    parts.forEach(p=>{
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+      if(p.shape==='emoji'){ctx.font='18px serif';ctx.fillText(p.emoji,-9,-9);}
+      else if(p.shape==='rect'){ctx.fillStyle=p.color;ctx.fillRect(-p.r/2,-p.r/3,p.r,p.r*.5);}
+      else{ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(0,0,p.r/2.5,0,Math.PI*2);ctx.fill();}
+      ctx.restore();
+      p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr;
+    });
+    parts=parts.filter(p=>p.y<canvas.height+50);
+    if(parts.length>0) confettiId=requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  if(confettiId) cancelAnimationFrame(confettiId);
+  draw();
+}
+
+// inject boomPop keyframe
+const ks=document.createElement('style');
+ks.textContent='@keyframes boomPop{0%{opacity:0;transform:scale(.2) rotate(-20deg)}50%{opacity:1;transform:scale(1.4) rotate(12deg)}100%{opacity:1;transform:scale(1)}}';
+document.head.appendChild(ks);
+</script>
+</body>
+</html>
